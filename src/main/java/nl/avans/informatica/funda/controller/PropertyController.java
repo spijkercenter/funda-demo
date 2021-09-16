@@ -2,6 +2,7 @@ package nl.avans.informatica.funda.controller;
 
 import nl.avans.informatica.funda.BullshitRepository;
 import nl.avans.informatica.funda.domain.Property;
+import nl.avans.informatica.funda.repositories.PropertyRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,16 +11,21 @@ import java.util.List;
 @RequestMapping("/properties")
 public class PropertyController {
 
+    private PropertyRepository propertyRepository;
+
+    public PropertyController(PropertyRepository propertyRepository) {
+        this.propertyRepository = propertyRepository;
+    }
+
     @GetMapping
-    public List<Property> getAll(
-            BullshitRepository bullshitRepository,
+    public Iterable<Property> getAll(
             @RequestParam(required = false) Integer minPrice,
             @RequestParam(required = false) Integer maxPrice
     ) {
-        if (minPrice == null && maxPrice == null) {
-            return bullshitRepository.getAll();
+        if (minPrice == null || maxPrice == null) {
+            return propertyRepository.findAll();
         }
-        return bullshitRepository.getMarket().search(minPrice, maxPrice);
+        return propertyRepository.findAllByAskingPriceBetween(minPrice, maxPrice);
     }
 
     @GetMapping("/{address}")

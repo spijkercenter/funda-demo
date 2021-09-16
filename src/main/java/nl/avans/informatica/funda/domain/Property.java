@@ -1,29 +1,37 @@
 package nl.avans.informatica.funda.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.io.Serializable;
 
+@Entity
 public class Property implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private int id;
+
     private String address;
-    // TODO enum
-    private String propertyType;
-    private Integer askingPrice;
+    private int  askingPrice;
 
 
     public Property() {
 
     }
 
-    public Property(String address, String propertyType, Integer askingPrice) {
+    public Property(int id,String address, int askingPrice) {
         this.address = address;
-        this.propertyType = propertyType;
         this.askingPrice = askingPrice;
     }
 
-    public Property(String address, String propertyType) {
-        this(address, propertyType, null);
+    public Property(String address, int askingPrice) {
+        this.address = address;
+        this.askingPrice = askingPrice;
     }
 
-    public Bid doOffer(Customer customer, Integer offerPrice) {
+    public Bid doOffer(Customer customer, int offerPrice) {
         if (isAccepted(offerPrice)) {
             return new Bid(offerPrice, customer);
         } else {
@@ -31,22 +39,17 @@ public class Property implements Serializable {
         }
     }
 
-    private boolean isAccepted(Integer offerPrice) {
-        if (offerPrice == null) {
-            return false;
-        }
-        if (askingPrice == null) {
-            return false;
-        }
+
+    public int getId() {
+        return id;
+    }
+
+    private boolean isAccepted(int offerPrice) {
         return offerPrice > askingPrice;
     }
 
     public String getAddress() {
         return address;
-    }
-
-    public String getPropertyType() {
-        return propertyType;
     }
 
     public Integer getAskingPrice() {

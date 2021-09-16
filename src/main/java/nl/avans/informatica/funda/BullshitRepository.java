@@ -14,8 +14,8 @@ public class BullshitRepository {
     public BullshitRepository() {
         market = new PropertyMarket();
 
-        Property green = new Property("2", "HOUSE", 5000);
-        Property yellow = new Property("34", "APARTMENT", 4000);
+        Property green = new Property(2, "HOUSE", 5000);
+        Property yellow = new Property(34, "APARTMENT", 4000);
 
         market.addProperty(green);
         market.addProperty(yellow);
