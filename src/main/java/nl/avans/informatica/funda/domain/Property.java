@@ -11,17 +11,15 @@ public class Property implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int id;
+    private Integer id;
 
     private String address;
-    private int  askingPrice;
-
+    private int askingPrice;
 
     public Property() {
-
     }
 
-    public Property(int id,String address, int askingPrice) {
+    public Property(int id, String address, int askingPrice) {
         this.address = address;
         this.askingPrice = askingPrice;
     }
@@ -33,14 +31,13 @@ public class Property implements Serializable {
 
     public Bid doOffer(Customer customer, int offerPrice) {
         if (isAccepted(offerPrice)) {
-            return new Bid(offerPrice, customer);
+            return new Bid(offerPrice, this, customer);
         } else {
             return null;
         }
     }
 
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -52,7 +49,7 @@ public class Property implements Serializable {
         return address;
     }
 
-    public Integer getAskingPrice() {
+    public int getAskingPrice() {
         return askingPrice;
     }
 }
