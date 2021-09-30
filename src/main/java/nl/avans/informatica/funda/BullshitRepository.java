@@ -6,6 +6,7 @@ import nl.avans.informatica.funda.domain.Property;
 import nl.avans.informatica.funda.domain.PropertyMarket;
 import org.springframework.stereotype.Repository;
 
+import javax.el.PropertyNotFoundException;
 import java.util.List;
 
 @Repository
@@ -36,11 +37,10 @@ public class BullshitRepository {
     }
 
     public Property getByAddress(String address) {
-        for (Property property : market.getAll()) {
-           if (property.getAddress().equals(address)) {
-               return property;
-           }
-        }
-        return null;
+        return market.getAll().stream()
+                .filter(p -> p.getAddress().equals(address))
+                .findFirst()
+                .orElseThrow(PropertyNotFoundException::new);
+
     }
 }

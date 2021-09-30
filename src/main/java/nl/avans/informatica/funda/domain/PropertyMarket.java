@@ -2,6 +2,8 @@ package nl.avans.informatica.funda.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class PropertyMarket {
     private final List<Property> properties = new ArrayList<>();
@@ -19,12 +21,9 @@ public class PropertyMarket {
     }
 
     public List<Property> search(int minPrice, int maxPrice) {
-        List<Property> result = new ArrayList<>();
-        for (Property property : properties) {
-            if (property.getAskingPrice() >= minPrice && property.getAskingPrice() <= maxPrice) {
-                result.add(property);
-            }
-        }
-        return result;
+        return properties.stream()
+                .filter(p -> p.getAskingPrice() >= minPrice)
+                .filter(p -> p.getAskingPrice() <= maxPrice)
+                .collect(Collectors.toList());
     }
 }

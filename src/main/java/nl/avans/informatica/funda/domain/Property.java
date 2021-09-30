@@ -50,11 +50,9 @@ public abstract class Property {
     }
 
     public void printChecklist() {
-        List<String> checklist = getChecklist();
-        for (int i = 0; i < checklist.size(); i++) {
-            String check = checklist.get(i);
-            System.out.println(i + ". " + check);
-        }
+        getChecklist().stream()
+                .map(check -> "n. " + check)
+                .forEach(System.out::println);
     }
 
     public abstract int getMonthlyPayment();
