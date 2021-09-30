@@ -4,8 +4,7 @@ import java.io.Serializable;
 
 public class Property implements Serializable {
     private String address;
-    // TODO enum
-    private String propertyType;
+    private PropertyType propertyType;
     private Integer askingPrice;
 
 
@@ -13,14 +12,10 @@ public class Property implements Serializable {
 
     }
 
-    public Property(String address, String propertyType, Integer askingPrice) {
+    public Property(String address, PropertyType propertyType, Integer askingPrice) {
         this.address = address;
         this.propertyType = propertyType;
         this.askingPrice = askingPrice;
-    }
-
-    public Property(String address, String propertyType) {
-        this(address, propertyType, null);
     }
 
     public Bid doOffer(Customer customer, Integer offerPrice) {
@@ -45,7 +40,7 @@ public class Property implements Serializable {
         return address;
     }
 
-    public String getPropertyType() {
+    public PropertyType getPropertyType() {
         return propertyType;
     }
 

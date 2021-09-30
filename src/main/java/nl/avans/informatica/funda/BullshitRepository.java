@@ -2,6 +2,7 @@ package nl.avans.informatica.funda;
 
 import nl.avans.informatica.funda.domain.Property;
 import nl.avans.informatica.funda.domain.PropertyMarket;
+import nl.avans.informatica.funda.domain.PropertyType;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,8 +15,8 @@ public class BullshitRepository {
     public BullshitRepository() {
         market = new PropertyMarket();
 
-        Property green = new Property("2", "HOUSE", 5000);
-        Property yellow = new Property("34", "APARTMENT", 4000);
+        Property green = new Property("2", PropertyType.HOUSE, 5000);
+        Property yellow = new Property("34", PropertyType.APARTMENT, 4000);
 
         market.addProperty(green);
         market.addProperty(yellow);
