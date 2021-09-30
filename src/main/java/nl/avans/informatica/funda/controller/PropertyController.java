@@ -4,8 +4,6 @@ import nl.avans.informatica.funda.domain.Property;
 import nl.avans.informatica.funda.repository.PropertyRepository;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/properties")
 public class PropertyController {

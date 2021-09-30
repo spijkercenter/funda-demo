@@ -3,6 +3,7 @@ package nl.avans.informatica.funda.domain;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,9 @@ public abstract class Property {
     private String address;
     private Integer askingPrice;
 
+    @OneToMany
+    private List<Bid> bids;
+
     public Property() {
 
     }
@@ -27,7 +31,9 @@ public abstract class Property {
 
     public Bid doOffer(Customer customer, Integer offerPrice) {
         if (isAccepted(offerPrice)) {
-            return new Bid(offerPrice, customer);
+            Bid bid = new Bid(offerPrice, customer, this);
+            this.bids.add(bid);
+            return bid;
         } else {
             return null;
         }
@@ -41,6 +47,14 @@ public abstract class Property {
             return false;
         }
         return offerPrice > askingPrice;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public List<Bid> getBids() {
+        return bids;
     }
 
     public String getAddress() {
