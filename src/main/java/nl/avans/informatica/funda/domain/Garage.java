@@ -1,8 +1,10 @@
 package nl.avans.informatica.funda.domain;
 
+import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Garage extends Property {
     private boolean hasElectricity;
 

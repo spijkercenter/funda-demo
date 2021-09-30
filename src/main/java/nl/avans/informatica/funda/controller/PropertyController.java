@@ -1,7 +1,7 @@
 package nl.avans.informatica.funda.controller;
 
-import nl.avans.informatica.funda.BullshitRepository;
 import nl.avans.informatica.funda.domain.Property;
+import nl.avans.informatica.funda.repository.PropertyRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,33 +10,39 @@ import java.util.List;
 @RequestMapping("/properties")
 public class PropertyController {
 
+    private final PropertyRepository propertyRepository;
+
+    public PropertyController(PropertyRepository propertyRepository) {
+        this.propertyRepository = propertyRepository;
+    }
+
     @GetMapping
-    public List<Property> getAll(
-            BullshitRepository bullshitRepository,
+    public Iterable<Property> getAll(
             @RequestParam(required = false) Integer minPrice,
             @RequestParam(required = false) Integer maxPrice
     ) {
         if (minPrice == null && maxPrice == null) {
-            return bullshitRepository.getAll();
+            return propertyRepository.findAll();
         }
-        return bullshitRepository.getMarket().search(minPrice, maxPrice);
+        if (minPrice == null) {
+            return propertyRepository.findByAskingPriceLessThan(maxPrice);
+        }
+        return propertyRepository.findByAskingPriceBetween(minPrice, maxPrice);
     }
 
     @GetMapping("/{address}")
     public Property getByAddress(
-            BullshitRepository bullshitRepository,
             @PathVariable String address) {
-        return bullshitRepository.getByAddress(address);
+        return propertyRepository.findByAddress(address).orElse(null);
     }
 
     @PostMapping
     public Property createProperty(
-            BullshitRepository bullshitRepository,
             @RequestBody Property property) {
         if (property.getAskingPrice() == null) {
             throw new IllegalArgumentException();
         }
-        bullshitRepository.addProperty(property);
+        propertyRepository.save(property);
         return property;
     }
 }

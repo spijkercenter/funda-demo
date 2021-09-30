@@ -1,5 +1,8 @@
 package nl.avans.informatica.funda.domain;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Apartment extends Property {
     private int paymentHoa;
     private int floor;

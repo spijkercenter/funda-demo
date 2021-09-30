@@ -1,9 +1,18 @@
 package nl.avans.informatica.funda.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public abstract class Property {
+
+    @Id
+    @GeneratedValue
+    private int id;
+
     private String address;
     private Integer askingPrice;
 
