@@ -1,5 +1,7 @@
 package nl.avans.informatica.funda;
 
+import nl.avans.informatica.funda.domain.Apartment;
+import nl.avans.informatica.funda.domain.House;
 import nl.avans.informatica.funda.domain.Property;
 import nl.avans.informatica.funda.domain.PropertyMarket;
 import nl.avans.informatica.funda.domain.PropertyType;
@@ -15,11 +17,11 @@ public class BullshitRepository {
     public BullshitRepository() {
         market = new PropertyMarket();
 
-        Property green = new Property("2", PropertyType.HOUSE, 5000);
-        Property yellow = new Property("34", PropertyType.APARTMENT, 4000);
+        Property house = new House("2",  5000, 100);
+        Property apartment = new Apartment("34", 4000, 200, 2);
 
-        market.addProperty(green);
-        market.addProperty(yellow);
+        market.addProperty(house);
+        market.addProperty(apartment);
     }
 
     public List<Property> getAll() {

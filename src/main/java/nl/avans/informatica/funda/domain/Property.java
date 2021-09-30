@@ -4,17 +4,14 @@ import java.io.Serializable;
 
 public class Property implements Serializable {
     private String address;
-    private PropertyType propertyType;
     private Integer askingPrice;
-
 
     public Property() {
 
     }
 
-    public Property(String address, PropertyType propertyType, Integer askingPrice) {
+    public Property(String address, Integer askingPrice) {
         this.address = address;
-        this.propertyType = propertyType;
         this.askingPrice = askingPrice;
     }
 
@@ -38,10 +35,6 @@ public class Property implements Serializable {
 
     public String getAddress() {
         return address;
-    }
-
-    public PropertyType getPropertyType() {
-        return propertyType;
     }
 
     public Integer getAskingPrice() {
