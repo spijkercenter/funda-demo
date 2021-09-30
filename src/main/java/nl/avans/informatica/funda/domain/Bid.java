@@ -41,6 +41,10 @@ public class Bid {
         return priceOffered;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public LocalDateTime getTimeOfBid() {
         return timeOfBid;
     }
@@ -49,7 +53,7 @@ public class Bid {
         return customer;
     }
 
-//    public Property getProperty() {
-//        return property;
-//    }
+    public Property getProperty() {
+        return property;
+    }
 }
