@@ -14,6 +14,11 @@ public class Apartment extends Property {
 
     }
 
+    @Override
+    public int getMonthlyPayment() {
+        return floor * getAskingPrice();
+    }
+
     public int getPaymentHoa() {
         return paymentHoa;
     }

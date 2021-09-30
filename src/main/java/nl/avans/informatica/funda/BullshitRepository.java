@@ -4,7 +4,6 @@ import nl.avans.informatica.funda.domain.Apartment;
 import nl.avans.informatica.funda.domain.House;
 import nl.avans.informatica.funda.domain.Property;
 import nl.avans.informatica.funda.domain.PropertyMarket;
-import nl.avans.informatica.funda.domain.PropertyType;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

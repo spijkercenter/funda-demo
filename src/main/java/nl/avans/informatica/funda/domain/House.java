@@ -1,5 +1,8 @@
 package nl.avans.informatica.funda.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class House extends Property {
     private int plotArea;
 
@@ -15,5 +18,17 @@ public class House extends Property {
 
     public int getPlotArea() {
         return plotArea;
+    }
+
+    @Override
+    public List<String> getChecklist() {
+        List<String> result = super.getChecklist();
+        result.add("Does it have a roof?");
+        return result;
+    }
+
+    @Override
+    public int getMonthlyPayment() {
+        return (int) (getAskingPrice() / 12.0);
     }
 }

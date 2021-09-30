@@ -13,8 +13,8 @@ class PropertyMarketTest {
     void search_forOneBelowAndOneAboveAsking_expectOne() {
         // Arrange
         PropertyMarket market = new PropertyMarket();
-        Property below = new Property("", 5);
-        Property above = new Property("", 10);
+        Property below = new House("", 5, 1);
+        Property above = new House("", 10, 2);
         market.addProperty(below);
         market.addProperty(above);
 
@@ -32,9 +32,9 @@ class PropertyMarketTest {
     void search_forOneBelowAndOneGoldilocksAndOneAboveAsking_expectOne() {
         // Arrange
         PropertyMarket market = new PropertyMarket();
-        Property below = new Property("",5);
-        Property goldilocks = new Property("", 7);
-        Property above = new Property("", 10);
+        Property below = new House("",5, 0);
+        Property goldilocks = new House("", 7, 0);
+        Property above = new House("", 10, 0);
         market.addProperty(below);
         market.addProperty(goldilocks);
         market.addProperty(above);

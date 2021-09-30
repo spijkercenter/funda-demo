@@ -1,5 +1,8 @@
 package nl.avans.informatica.funda.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Garage extends Property {
     private boolean hasElectricity;
 
@@ -12,7 +15,21 @@ public class Garage extends Property {
 
     }
 
-    public boolean isHasElectricity() {
+    public boolean hasElectricity() {
         return hasElectricity;
+    }
+
+    @Override
+    public List<String> getChecklist() {
+        List<String> result = new ArrayList<>();
+        if (hasElectricity) {
+            result.add("Has three-phase power?");
+        }
+        return result;
+    }
+
+    @Override
+    public int getMonthlyPayment() {
+        return 300;
     }
 }
