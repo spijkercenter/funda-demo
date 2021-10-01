@@ -1,30 +1,28 @@
 package nl.avans.informatica.funda.controller.dto;
 
-import nl.avans.informatica.funda.domain.Bid;
+import nl.avans.informatica.funda.controller.HasId;
 
 import java.time.LocalDateTime;
 
-public class BidDto {
+public class BidDto implements HasId {
 
+    private final Integer id;
     private final int customerId;
     private final int propertyId;
     private final int priceOffered;
     private final LocalDateTime timeOfBid;
 
-    public static BidDto of(Bid bid) {
-        return new BidDto(
-                bid.getCustomer().getId(),
-                bid.getProperty().getId(),
-                bid.getPriceOffered(),
-                bid.getTimeOfBid()
-        );
-    }
-
-    private BidDto(int customerId, int propertyId, int priceOffered, LocalDateTime timeOfBid) {
+    public BidDto(int id, int customerId, int propertyId, int priceOffered, LocalDateTime timeOfBid) {
+        this.id = id;
         this.customerId = customerId;
         this.propertyId = propertyId;
         this.priceOffered = priceOffered;
         this.timeOfBid = timeOfBid;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
     }
 
     public int getCustomerId() {

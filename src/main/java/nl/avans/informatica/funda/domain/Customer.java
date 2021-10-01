@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Customer {
+public class Customer implements HasModifiableId{
 
     @Id
     @GeneratedValue
@@ -25,6 +25,11 @@ public class Customer {
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

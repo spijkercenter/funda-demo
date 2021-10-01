@@ -5,10 +5,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
-public abstract class Property {
+public abstract class Property implements HasModifiableId {
 
     @Id
     @GeneratedValue
@@ -29,32 +31,18 @@ public abstract class Property {
         this.askingPrice = askingPrice;
     }
 
-    public Bid doOffer(Customer customer, Integer offerPrice) {
-        if (isAccepted(offerPrice)) {
-            Bid bid = new Bid(offerPrice, customer, this);
-            this.bids.add(bid);
-            return bid;
-        } else {
-            return null;
-        }
-    }
-
-    private boolean isAccepted(Integer offerPrice) {
-        if (offerPrice == null) {
-            return false;
-        }
-        if (askingPrice == null) {
-            return false;
-        }
-        return offerPrice > askingPrice;
-    }
-
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public List<Bid> getBids() {
-        return bids;
+        return Objects.requireNonNullElse(bids, Collections.emptyList());
     }
 
     public String getAddress() {
@@ -79,4 +67,8 @@ public abstract class Property {
     }
 
     public abstract int getMonthlyPayment();
+
+    public String getType() {
+        return getClass().getSimpleName();
+    }
 }

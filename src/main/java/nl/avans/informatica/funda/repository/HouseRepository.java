@@ -1,9 +1,9 @@
 package nl.avans.informatica.funda.repository;
 
-import nl.avans.informatica.funda.domain.Property;
+import nl.avans.informatica.funda.domain.House;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PropertyRepository extends JpaRepository<Property, Integer> {
+public interface HouseRepository extends JpaRepository<House, Integer> {
 }
