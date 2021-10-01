@@ -22,7 +22,7 @@ public class BidService implements DataSource<Bid> {
     }
 
     public boolean isAcceptable(Bid bid) {
-        return bid.getPriceOffered() > bid.getProperty().getAskingPrice();
+        return bid.getPriceOffered() >= bid.getProperty().getAskingPrice();
     }
 
     @Override
@@ -34,7 +34,7 @@ public class BidService implements DataSource<Bid> {
         bid = bidRepository.save(bid);
         var property = bid.getProperty();
 
-        property.getBids().add(bid);
+        property.addBid(bid);
         propertyRepository.save(bid.getProperty());
 
         return bid;
