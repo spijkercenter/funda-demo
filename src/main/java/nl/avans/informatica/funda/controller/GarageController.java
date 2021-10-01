@@ -6,6 +6,8 @@ import nl.avans.informatica.funda.controller.dto.GarageDto;
 import nl.avans.informatica.funda.domain.Garage;
 import nl.avans.informatica.funda.domain.Bid;
 import nl.avans.informatica.funda.repository.GarageRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,10 +23,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/garages")
 public class GarageController implements CanRead<Garage, GarageDto>, CanCreate<Garage, GarageDto> {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final AbstractController<Garage, GarageDto> innerController;
 
     public GarageController(GarageRepository garageRepository) {
-        this.innerController = new AbstractController<>(garageRepository) {
+        this.innerController = new AbstractController<>(logger, garageRepository) {
             @Override
             protected GarageDto fromEntityToDto(Garage garage) {
                 return new GarageDto(

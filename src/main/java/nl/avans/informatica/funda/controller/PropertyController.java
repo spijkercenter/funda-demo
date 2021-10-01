@@ -5,6 +5,8 @@ import nl.avans.informatica.funda.controller.dto.PropertyDto;
 import nl.avans.informatica.funda.domain.Bid;
 import nl.avans.informatica.funda.domain.Property;
 import nl.avans.informatica.funda.repository.PropertyRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,9 +21,10 @@ import java.util.stream.Collectors;
 public class PropertyController implements CanRead<Property, PropertyDto> {
 
     private final AbstractController<Property, PropertyDto> innerController;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public PropertyController(PropertyRepository propertyRepository) {
-        this.innerController = new AbstractController<>(propertyRepository) {
+        this.innerController = new AbstractController<>(logger, propertyRepository) {
             @Override
             protected PropertyDto fromEntityToDto(Property property) {
                 return new PropertyDto(

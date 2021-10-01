@@ -3,6 +3,7 @@ package nl.avans.informatica.funda.controller;
 import nl.avans.informatica.funda.DataSource;
 import nl.avans.informatica.funda.controller.archetypes.CrudController;
 import nl.avans.informatica.funda.domain.HasModifiableId;
+import org.slf4j.Logger;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.ResponseEntity;
 
@@ -17,13 +18,15 @@ import static org.springframework.http.ResponseEntity.ok;
 public abstract class AbstractController<E extends HasModifiableId, DTO extends HasId> implements CrudController<E, DTO> {
 
     private final DataSource<E> dataSource;
+    private final Logger logger;
 
-    protected AbstractController(DataSource<E> dataSource) {
+    protected AbstractController(Logger logger, DataSource<E> dataSource) {
         this.dataSource = dataSource;
+        this.logger = logger;
     }
 
-    protected AbstractController(JpaRepository<E, Integer> repository) {
-        this(DataSource.of(repository));
+    protected AbstractController(Logger logger, JpaRepository<E, Integer> repository) {
+        this(logger, DataSource.of(repository));
     }
 
     protected abstract DTO fromEntityToDto(E t);
@@ -53,6 +56,7 @@ public abstract class AbstractController<E extends HasModifiableId, DTO extends 
             dataSource.save(entity);
             return ok(fromEntityToDto(entity));
         } catch (IllegalArgumentException | NullPointerException e) {
+            logger.error("Error during creation, input: " + input, e);
             return ResponseEntity.badRequest().build();
         }
     }

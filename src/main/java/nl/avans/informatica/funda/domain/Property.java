@@ -46,7 +46,11 @@ public abstract class Property implements HasModifiableId {
     }
 
     public List<Bid> getBids() {
-        return Objects.requireNonNullElse(Collections.unmodifiableList(bids), Collections.emptyList());
+        if (bids == null) {
+            return Collections.emptyList();
+        } else {
+            return Collections.unmodifiableList(bids);
+        }
     }
 
     public String getAddress() {

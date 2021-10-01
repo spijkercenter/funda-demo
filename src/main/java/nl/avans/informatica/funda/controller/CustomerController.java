@@ -4,6 +4,8 @@ import nl.avans.informatica.funda.controller.archetypes.CrudController;
 import nl.avans.informatica.funda.controller.dto.CustomerDto;
 import nl.avans.informatica.funda.domain.Customer;
 import nl.avans.informatica.funda.repository.CustomerRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,9 +23,10 @@ import java.util.List;
 public class CustomerController implements CrudController<Customer, CustomerDto> {
 
     private final AbstractController<Customer, CustomerDto> innerController;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public CustomerController(CustomerRepository customerRepository) {
-        this.innerController = new AbstractController<>(customerRepository) {
+        this.innerController = new AbstractController<>(logger, customerRepository) {
             @Override
             protected CustomerDto fromEntityToDto(Customer customer) {
                 return new CustomerDto(customer.getId(), customer.getEmail(), customer.getName());

@@ -9,6 +9,8 @@ import nl.avans.informatica.funda.domain.Property;
 import nl.avans.informatica.funda.repository.CustomerRepository;
 import nl.avans.informatica.funda.repository.PropertyRepository;
 import nl.avans.informatica.funda.service.BidService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,9 +26,10 @@ import java.util.List;
 public class BidController implements CanRead<Bid, BidDto>, CanCreate<Bid, BidDto> {
 
     private final AbstractController<Bid, BidDto> innerController;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public BidController(BidService bidService, CustomerRepository customerRepository, PropertyRepository propertyRepository) {
-        this.innerController = new AbstractController<>(bidService) {
+        this.innerController = new AbstractController<>(logger, bidService) {
             @Override
             protected BidDto fromEntityToDto(Bid b) {
                 return new BidDto(

@@ -6,6 +6,8 @@ import nl.avans.informatica.funda.controller.dto.HouseDto;
 import nl.avans.informatica.funda.domain.Bid;
 import nl.avans.informatica.funda.domain.House;
 import nl.avans.informatica.funda.repository.HouseRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,10 +23,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/houses")
 public class HouseController implements CanRead<House, HouseDto>, CanCreate<House, HouseDto> {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final AbstractController<House, HouseDto> innerController;
 
     public HouseController(HouseRepository houseRepository) {
-        this.innerController = new AbstractController<>(houseRepository) {
+        this.innerController = new AbstractController<>(logger, houseRepository) {
             @Override
             protected HouseDto fromEntityToDto(House house) {
                 return new HouseDto(
