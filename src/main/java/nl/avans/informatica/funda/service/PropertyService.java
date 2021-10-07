@@ -23,6 +23,11 @@ public class PropertyService {
                 .forEach(System.out::println);
     }
 
+    public boolean isAccepted(Integer propertyId, Integer offerPrice) {
+        Property property = propertyRepository.getById(propertyId);
+        return isAccepted(property, offerPrice);
+    }
+
     public boolean isAccepted(Property property, Integer offerPrice) {
         if (offerPrice == null) {
             return false;
