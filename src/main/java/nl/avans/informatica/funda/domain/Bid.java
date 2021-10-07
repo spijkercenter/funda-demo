@@ -7,7 +7,7 @@ import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
 @Entity
-public class Bid implements HasModifiableId {
+public class Bid {
 
     @Id
     @GeneratedValue
@@ -24,7 +24,6 @@ public class Bid implements HasModifiableId {
     private LocalDateTime timeOfBid;
 
     public Bid() {
-
     }
 
     public Bid(int priceOffered, Customer customer, Property property) {
@@ -41,12 +40,10 @@ public class Bid implements HasModifiableId {
         return priceOffered;
     }
 
-    @Override
     public int getId() {
         return id;
     }
 
-    @Override
     public void setId(int id) {
         this.id = id;
     }

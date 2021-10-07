@@ -26,7 +26,7 @@ import java.util.Objects;
         @JsonSubTypes.Type(value = Garage.class, name = "Garage"),
         @JsonSubTypes.Type(value = House.class, name = "House")
 })
-public abstract class Property implements HasModifiableId {
+public abstract class Property {
 
     @Id
     @GeneratedValue
@@ -45,14 +45,13 @@ public abstract class Property implements HasModifiableId {
     public Property(String address, Integer askingPrice) {
         this.address = address;
         this.askingPrice = askingPrice;
+        this.bids = new ArrayList<>();
     }
 
-    @Override
     public int getId() {
         return id;
     }
 
-    @Override
     public void setId(int id) {
         this.id = id;
     }

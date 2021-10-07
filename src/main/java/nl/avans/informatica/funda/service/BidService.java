@@ -1,6 +1,5 @@
 package nl.avans.informatica.funda.service;
 
-import nl.avans.informatica.funda.DataSource;
 import nl.avans.informatica.funda.domain.Bid;
 import nl.avans.informatica.funda.repository.BidRepository;
 import nl.avans.informatica.funda.repository.PropertyRepository;
@@ -11,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class BidService implements DataSource<Bid> {
+public class BidService {
 
     private final BidRepository bidRepository;
     private final PropertyRepository propertyRepository;
@@ -25,7 +24,6 @@ public class BidService implements DataSource<Bid> {
         return bid.getPriceOffered() >= bid.getProperty().getAskingPrice();
     }
 
-    @Override
     @Transactional // Rolls back the first save operation if the second one fails
     public Bid save(Bid bid) {
         if (!isAcceptable(bid)) {
@@ -41,23 +39,19 @@ public class BidService implements DataSource<Bid> {
     }
 
     // region repo pass through
-    @Override
     public List<Bid> findAll() {
         return bidRepository.findAll();
     }
 
-    @Override
     public Optional<Bid> findById(Integer id) {
         return bidRepository.findById(id);
     }
 
 
-    @Override
     public boolean existsById(Integer id) {
         return bidRepository.existsById(id);
     }
 
-    @Override
     public void deleteById(Integer id) {
         bidRepository.deleteById(id);
     }

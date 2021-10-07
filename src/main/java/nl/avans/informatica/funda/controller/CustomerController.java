@@ -2,11 +2,9 @@ package nl.avans.informatica.funda.controller;
 
 import nl.avans.informatica.funda.controller.archetypes.CrudController;
 import nl.avans.informatica.funda.controller.dto.CustomerDto;
+import nl.avans.informatica.funda.controller.mapper.CustomerMapper;
 import nl.avans.informatica.funda.domain.Customer;
 import nl.avans.informatica.funda.repository.CustomerRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,52 +18,43 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/customers")
-public class CustomerController implements CrudController<Customer, CustomerDto> {
+public class CustomerController implements CrudController<CustomerDto> {
 
-    private final AbstractController<Customer, CustomerDto> innerController;
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final CustomerRepository customerRepository;
+    private final ControllerOperations<Customer, CustomerDto> operations;
 
-    public CustomerController(CustomerRepository customerRepository) {
-        this.innerController = new AbstractController<>(logger, customerRepository) {
-            @Override
-            protected CustomerDto fromEntityToDto(Customer customer) {
-                return new CustomerDto(customer.getId(), customer.getEmail(), customer.getName());
-            }
-
-            @Override
-            protected Customer fromDtoToEntity(CustomerDto dto) {
-                return new Customer(dto.getName(), dto.getEmail());
-            }
-        };
+    public CustomerController(CustomerRepository customerRepository, CustomerMapper mapper) {
+        this.customerRepository = customerRepository;
+        this.operations = new ControllerOperations<>(mapper);
     }
 
     @Override
     @GetMapping
-    public ResponseEntity<List<CustomerDto>> getAll() {
-        return innerController.getAll();
+    public List<CustomerDto> getAll() {
+        return operations.getAll(customerRepository::findAll);
     }
 
     @Override
     @GetMapping("/{id}")
-    public ResponseEntity<CustomerDto> getById(@PathVariable Integer id) {
-        return innerController.getById(id);
+    public CustomerDto getById(@PathVariable Integer id) {
+        return operations.getById(id, customerRepository::findById);
     }
 
     @Override
     @PostMapping
-    public ResponseEntity<CustomerDto> create(@RequestBody CustomerDto dto) {
-        return innerController.create(dto);
+    public CustomerDto create(@RequestBody CustomerDto dto) {
+        return operations.create(dto, customerRepository::save);
     }
 
     @Override
     @PutMapping("/{id}")
-    public ResponseEntity<CustomerDto> update(@PathVariable Integer id, @RequestBody CustomerDto dto) {
-        return innerController.update(id, dto);
+    public CustomerDto update(@PathVariable Integer id, @RequestBody CustomerDto dto) {
+        return operations.update(id, dto, customerRepository::existsById, customerRepository::save, Customer::setId);
     }
 
     @Override
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
-        return innerController.deleteById(id);
+    public void deleteById(@PathVariable Integer id) {
+        operations.deleteById(id, customerRepository::existsById, customerRepository::deleteById);
     }
 }

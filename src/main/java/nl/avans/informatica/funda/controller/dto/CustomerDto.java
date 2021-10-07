@@ -1,17 +1,9 @@
 package nl.avans.informatica.funda.controller.dto;
 
-import nl.avans.informatica.funda.controller.HasId;
-
-public class CustomerDto implements HasId {
-    private final Integer id;
-    private final String email;
-    private final String name;
-
-    public CustomerDto(Integer id, String email, String name) {
-        this.id = id;
-        this.email = email;
-        this.name = name;
-    }
+public class CustomerDto {
+    private Integer id;
+    private String email;
+    private String name;
 
     public Integer getId() {
         return id;
@@ -23,5 +15,17 @@ public class CustomerDto implements HasId {
 
     public String getName() {
         return name;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
