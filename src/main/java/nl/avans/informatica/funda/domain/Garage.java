@@ -6,6 +6,8 @@ import java.util.List;
 
 @Entity
 public class Garage extends Property {
+    public static final String TYPE = "GARAGE";
+
     private boolean hasElectricity;
 
     public Garage(String address, Integer askingPrice, boolean hasElectricity) {
@@ -33,5 +35,10 @@ public class Garage extends Property {
     @Override
     public int getMonthlyPayment() {
         return 300;
+    }
+
+    @Override
+    public String getType() {
+        return TYPE;
     }
 }

@@ -1,13 +1,31 @@
 package nl.avans.informatica.funda.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Apartment.class, name = Apartment.TYPE),
+        @JsonSubTypes.Type(value = Garage.class, name = "Garage"),
+        @JsonSubTypes.Type(value = House.class, name = "House")
+})
 public abstract class Property {
 
     @Id
@@ -27,34 +45,27 @@ public abstract class Property {
     public Property(String address, Integer askingPrice) {
         this.address = address;
         this.askingPrice = askingPrice;
-    }
-
-    public Bid doOffer(Customer customer, Integer offerPrice) {
-        if (isAccepted(offerPrice)) {
-            Bid bid = new Bid(offerPrice, customer, this);
-            this.bids.add(bid);
-            return bid;
-        } else {
-            return null;
-        }
-    }
-
-    private boolean isAccepted(Integer offerPrice) {
-        if (offerPrice == null) {
-            return false;
-        }
-        if (askingPrice == null) {
-            return false;
-        }
-        return offerPrice > askingPrice;
+        this.bids = new ArrayList<>();
     }
 
     public int getId() {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void addBid(Bid bid) {
+        bids.add(bid);
+    }
+
     public List<Bid> getBids() {
-        return bids;
+        if (bids == null) {
+            return Collections.emptyList();
+        } else {
+            return Collections.unmodifiableList(bids);
+        }
     }
 
     public String getAddress() {
@@ -79,4 +90,20 @@ public abstract class Property {
     }
 
     public abstract int getMonthlyPayment();
+
+    @JsonIgnore
+    public abstract String getType();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Property property = (Property) o;
+        return id == property.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

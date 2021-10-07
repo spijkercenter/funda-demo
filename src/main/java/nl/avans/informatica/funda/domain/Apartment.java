@@ -4,6 +4,9 @@ import javax.persistence.Entity;
 
 @Entity
 public class Apartment extends Property {
+
+    public static final String TYPE = "APARTMENT";
+
     private int paymentHoa;
     private int floor;
 
@@ -20,6 +23,11 @@ public class Apartment extends Property {
     @Override
     public int getMonthlyPayment() {
         return floor * getAskingPrice();
+    }
+
+    @Override
+    public String getType() {
+        return TYPE;
     }
 
     public int getPaymentHoa() {

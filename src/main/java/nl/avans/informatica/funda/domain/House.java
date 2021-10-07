@@ -1,11 +1,13 @@
 package nl.avans.informatica.funda.domain;
 
 import javax.persistence.Entity;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class House extends Property {
+
+    public static final String TYPE = "HOUSE";
+
     private int plotArea;
 
     public House(String address, Integer askingPrice, int plotArea) {
@@ -32,5 +34,10 @@ public class House extends Property {
     @Override
     public int getMonthlyPayment() {
         return (int) (getAskingPrice() / 12.0);
+    }
+
+    @Override
+    public String getType() {
+        return TYPE;
     }
 }

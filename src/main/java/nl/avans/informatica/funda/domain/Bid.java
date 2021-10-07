@@ -1,13 +1,10 @@
 package nl.avans.informatica.funda.domain;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 public class Bid {
@@ -27,10 +24,12 @@ public class Bid {
     private LocalDateTime timeOfBid;
 
     public Bid() {
-
     }
 
     public Bid(int priceOffered, Customer customer, Property property) {
+        if (customer == null || property == null) {
+            throw new IllegalArgumentException();
+        }
         this.priceOffered = priceOffered;
         this.customer = customer;
         this.property = property;
@@ -41,6 +40,14 @@ public class Bid {
         return priceOffered;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public LocalDateTime getTimeOfBid() {
         return timeOfBid;
     }
@@ -49,7 +56,7 @@ public class Bid {
         return customer;
     }
 
-//    public Property getProperty() {
-//        return property;
-//    }
+    public Property getProperty() {
+        return property;
+    }
 }
