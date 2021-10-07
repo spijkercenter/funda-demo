@@ -1,13 +1,12 @@
 package nl.avans.informatica.funda.domain;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 public class Bid {
@@ -37,6 +36,10 @@ public class Bid {
         this.timeOfBid = LocalDateTime.now();
     }
 
+    public int getId() {
+        return id;
+    }
+
     public int getPriceOffered() {
         return priceOffered;
     }
@@ -49,7 +52,7 @@ public class Bid {
         return customer;
     }
 
-//    public Property getProperty() {
-//        return property;
-//    }
+    public Property getProperty() {
+        return property;
+    }
 }

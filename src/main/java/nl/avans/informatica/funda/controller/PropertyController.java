@@ -2,6 +2,7 @@ package nl.avans.informatica.funda.controller;
 
 import nl.avans.informatica.funda.domain.Property;
 import nl.avans.informatica.funda.repository.PropertyRepository;
+import nl.avans.informatica.funda.service.PropertyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +15,14 @@ import java.net.http.HttpResponse;
 public class PropertyController {
 
     private final PropertyRepository propertyRepository;
+    private final PropertyService propertyService;
 
-    public PropertyController(PropertyRepository propertyRepository) {
+    public PropertyController(
+            PropertyRepository propertyRepository,
+            PropertyService propertyService
+    ) {
         this.propertyRepository = propertyRepository;
+        this.propertyService = propertyService;
     }
 
     @GetMapping
@@ -59,4 +65,5 @@ public class PropertyController {
         propertyRepository.save(property);
         return property;
     }
+
 }

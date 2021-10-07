@@ -1,5 +1,7 @@
 package nl.avans.informatica.funda.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -30,26 +32,6 @@ public abstract class Property {
         this.bids = new ArrayList<>();
     }
 
-    public Bid doOffer(Customer customer, Integer offerPrice) {
-        if (isAccepted(offerPrice)) {
-            Bid bid = new Bid(offerPrice, customer, this);
-            this.bids.add(bid);
-            return bid;
-        } else {
-            return null;
-        }
-    }
-
-    private boolean isAccepted(Integer offerPrice) {
-        if (offerPrice == null) {
-            return false;
-        }
-        if (askingPrice == null) {
-            return false;
-        }
-        return offerPrice > askingPrice;
-    }
-
     public int getId() {
         return id;
     }
@@ -66,17 +48,15 @@ public abstract class Property {
         return askingPrice;
     }
 
+    public void addBid(Bid bid) {
+        this.bids.add(bid);
+    }
+
     public List<String> getChecklist() {
         List<String> result = new ArrayList<>();
         result.add("Is it pretty?");
         result.add("Is it well maintained?");
         return result;
-    }
-
-    public void printChecklist() {
-        getChecklist().stream()
-                .map(check -> "n. " + check)
-                .forEach(System.out::println);
     }
 
     public abstract int getMonthlyPayment();

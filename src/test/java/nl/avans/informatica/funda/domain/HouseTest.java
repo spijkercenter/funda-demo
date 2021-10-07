@@ -17,17 +17,4 @@ class HouseTest {
 
         assertEquals(3, actual.size());
     }
-
-    @Test
-    void printChecklist() {
-
-        Property property = new House("", 10, 10);
-
-        property.printChecklist();
-
-    }
-
-
-
-
 }
