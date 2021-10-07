@@ -1,8 +1,16 @@
 package nl.avans.informatica.funda.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,6 +18,14 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Apartment.class, name = Apartment.TYPE),
+        @JsonSubTypes.Type(value = Garage.class, name = "Garage"),
+        @JsonSubTypes.Type(value = House.class, name = "House")
+})
 public abstract class Property implements HasModifiableId {
 
     @Id
@@ -76,7 +92,19 @@ public abstract class Property implements HasModifiableId {
 
     public abstract int getMonthlyPayment();
 
-    public String getType() {
-        return getClass().getSimpleName();
+    @JsonIgnore
+    public abstract String getType();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Property property = (Property) o;
+        return id == property.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
