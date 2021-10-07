@@ -2,7 +2,12 @@ package nl.avans.informatica.funda.controller;
 
 import nl.avans.informatica.funda.domain.Property;
 import nl.avans.informatica.funda.repository.PropertyRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.net.http.HttpResponse;
 
 @RestController
 @RequestMapping("/properties")
@@ -31,7 +36,18 @@ public class PropertyController {
     @GetMapping("/{address}")
     public Property getByAddress(
             @PathVariable String address) {
-        return propertyRepository.findByAddress(address).orElse(null);
+        return propertyRepository.findByAddress(address)
+//                .orElse(null); // 200 code without result
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)); // 404 exception
+    }
+
+
+    // Return with ResponseEntity
+    public ResponseEntity<Property> getByAddress2(
+            @PathVariable String address) {
+        return propertyRepository.findByAddress(address)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping

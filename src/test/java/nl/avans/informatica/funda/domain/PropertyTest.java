@@ -36,7 +36,7 @@ class PropertyTest {
         List<String> actual = property.getChecklist();
         System.out.println(actual);
 
-        assertEquals(2, actual.size());
+        assertEquals(3, actual.size());
     }
 
     @Test

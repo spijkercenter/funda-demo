@@ -27,6 +27,7 @@ public abstract class Property {
     public Property(String address, Integer askingPrice) {
         this.address = address;
         this.askingPrice = askingPrice;
+        this.bids = new ArrayList<>();
     }
 
     public Bid doOffer(Customer customer, Integer offerPrice) {
