@@ -1,6 +1,10 @@
 package nl.avans.informatica.funda.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.SimpleObjectIdResolver;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public abstract class Property {
 
     @Id
@@ -19,6 +27,7 @@ public abstract class Property {
     private String address;
     private Integer askingPrice;
 
+    @JsonBackReference
     @OneToMany
     private List<Bid> bids;
 

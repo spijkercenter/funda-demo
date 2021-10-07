@@ -1,6 +1,9 @@
 package nl.avans.informatica.funda.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +12,10 @@ import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
 @Entity
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class Bid {
 
     @Id
@@ -20,6 +27,7 @@ public class Bid {
     @ManyToOne
     private Customer customer;
 
+    @JsonManagedReference
     @ManyToOne
     private Property property;
 

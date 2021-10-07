@@ -1,12 +1,10 @@
 package nl.avans.informatica.funda.controller;
 
-import nl.avans.informatica.funda.BidDto;
 import nl.avans.informatica.funda.domain.Bid;
 import nl.avans.informatica.funda.domain.Customer;
 import nl.avans.informatica.funda.domain.Property;
 import nl.avans.informatica.funda.repository.BidRepository;
 import nl.avans.informatica.funda.repository.CustomerRepository;
-import nl.avans.informatica.funda.repository.PropertyRepository;
 import nl.avans.informatica.funda.service.PropertyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/bids")
@@ -32,25 +28,13 @@ public class BidController {
         this.propertyService = propertyService;
     }
 
-    private BidDto fromEntityToDto(Bid entity) {
-        BidDto dto = new BidDto();
-        dto.setId(entity.getId());
-        dto.setCustomerId(entity.getCustomer().getId());
-        dto.setPropertyId(entity.getProperty().getId());
-        dto.setPriceOffered(entity.getPriceOffered());
-        dto.setTimeOfBid(entity.getTimeOfBid());
-        return dto;
-    }
-
     @GetMapping
-    public Iterable<BidDto> getAll() {
-        return bidRepository.findAll().stream()
-                .map(this::fromEntityToDto)
-                .collect(Collectors.toList());
+    public Iterable<Bid> getAll() {
+        return bidRepository.findAll();
     }
 
     @PostMapping
-    public BidDto doOffer(
+    public Bid doOffer(
             @RequestParam int customerId,
             @RequestParam int propertyId,
             @RequestParam int priceOffered
@@ -62,7 +46,7 @@ public class BidController {
         if (bid != null) {
             bidRepository.save(bid);
             propertyService.save(property);
-            return fromEntityToDto(bid);
+            return bid;
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE);
         }
